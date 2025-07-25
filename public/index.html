@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Key Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Key Test</h1>
+        <label for="apiKey">API Key:</label>
+        <input type="text" id="apiKey" placeholder="Enter your API Key">
+
+        <label for="endpoint">API Endpoint:</label>
+        <input type="text" id="endpoint" placeholder="Enter API Endpoint">
+
+        <button onclick="testApi('GET')">GET</button>
+        <button onclick="testApi('POST')">POST</button>
+        <button onclick="testApi('PUT')">PUT</button>
+        <button onclick="testApi('DELETE')">DELETE</button>
+        <button onclick="window.open('/api/doc', '_blank')">Ver API Doc</button>
+
+        <div class="response" id="response"></div>
+    </div>
+
+    <script>
+        async function testApi(method) {
+            const apiKey = document.getElementById('apiKey').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const responseDiv = document.getElementById('response');
+
+            if (!apiKey || !endpoint) {
+                responseDiv.textContent = 'Elige API Key = 1234 y API Endpoint = /api/restaurantes/{id}(Esto solo en PUT o DELETE).';
+                return;
+            }
+
+            const body = method === 'POST' || method === 'PUT' ? JSON.stringify({
+                nombre: method === 'POST' ? 'Nuevo Restaurante' : 'Restaurante Actualizado',
+                direccion: method === 'POST' ? 'Nueva Dirección' : 'Dirección Actualizada',
+                telefono: method === 'POST' ? '123456789' : '987654321'
+            }) : null;
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: method,
+                    headers: {
+                        'X-API-KEY': apiKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: body
+                });
+
+                const data = await response.json();
+                responseDiv.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseDiv.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
