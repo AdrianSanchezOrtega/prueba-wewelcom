@@ -1,0 +1,18 @@
+security:
+    firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            custom_authenticators:
+                - App\Security\ApiKeyAuthenticator
+        api_doc:
+            pattern: ^/api/doc
+            security: false
+    access_control:
+        - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            id: App\Security\UserProvider
