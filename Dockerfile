@@ -24,8 +24,10 @@ RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available
 # Instala Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Instala dependencias de Composer
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Permite Composer como root y evita scripts automáticos
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 # Expone el puerto 10000 para Render
 EXPOSE 10000
