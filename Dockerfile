@@ -14,8 +14,10 @@ COPY . /var/www/html
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# Da permisos a la carpeta var
-RUN chown -R www-data:www-data var
+
+    # Crea la carpeta var si no existe y da permisos
+    RUN mkdir -p var \
+        && chown -R www-data:www-data var
 
 # Configura Apache para Symfony
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
