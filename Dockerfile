@@ -29,6 +29,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
+# Ejecuta migraciones Doctrine automáticamente durante el build
+RUN php bin/console doctrine:migrations:migrate --no-interaction || true
+
 # Expone el puerto 10000 para Render
 EXPOSE 10000
 
