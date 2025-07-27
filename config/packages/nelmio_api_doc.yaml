@@ -2,9 +2,9 @@ nelmio_api_doc:
     areas:
         default:
             path_patterns:
-                - ^/api
+                - ^/api/restaurantes
         doc:
             path_patterns:
-                - ^/api/doc
+                - ^/api/restaurantes
             security: []
 
