@@ -15,7 +15,6 @@ use OpenApi\Annotations as OA;
 class RestauranteApiController extends AbstractController
 {
     #[Route('', methods: ['GET'])]
-    #[Route('/', methods: ['GET'])]
     public function index(RestauranteRepository $repo): Response
     {
         $restaurantes = $repo->findAll();
@@ -29,7 +28,6 @@ class RestauranteApiController extends AbstractController
     }
 
     #[Route('', methods: ['POST'])]
-    #[Route('/', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
